@@ -35,7 +35,10 @@
               <div>
                 {productNames.map(product=>{
                   return (
-                    <h1>{product.name}</h1>
+                    <ul>
+                      <li key={product.id}>Product:{product.name}</li>
+                      <li key={product.id}>SuggestedPrice:{product.suggestedPrice}</li>
+                    </ul>
                   )
                 })}
               </div>
