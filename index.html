@@ -15,18 +15,22 @@
       const { Component } = React;
       const { render } = ReactDOM;
 
+      const API = 'https://acme-users-api-rev.herokuapp.com/api/'
+
       class App extends Component{
         constructor(){
           super();
           this.state = {
-            products: []
+            products: [],
+            offerings: [],
+            companies: []
           }
         }
 
-        async componentDidMount(){
-          const products = (await axios.get('https://acme-users-api-rev.herokuapp.com/api/products')).data;
-          this.setState({products});
-          console.log(this.state.products);
+        componentDidMount(){
+          Promise.all(['products', 'offerings', 'companies'].map( group => axios.get(`${API}${ group }`)))
+            .then( responses => responses.map(response => response.data))
+            .then( ([ products, offerings, companies ])=> this.setState({ products, offerings, companies }));
         }
 
         render(){
@@ -36,15 +40,15 @@
                 {productNames.map(product=>{
                   return (
                     <ul>
-                      <li key={product.id}>Product:{product.name}</li>
-                      <li key={product.id}>SuggestedPrice:{product.suggestedPrice}</li>
+                      <li key={product.id}>Product: {product.name}</li>
+                      <li key={product.id}>SuggestedPrice: {product.suggestedPrice}</li>
                     </ul>
                   )
                 })}
               </div>
             )
-        }
-      };
+        };
+    };
 
       const root = document.querySelector('#root');
       //render(React.createElement('hr'), root);
