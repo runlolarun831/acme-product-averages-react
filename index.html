@@ -15,6 +15,19 @@
       const { Component } = React;
       const { render } = ReactDOM;
 
+      const Home = ()=> {
+        return (
+          <h1>Home</h1>
+        );
+      }
+
+      const Products = ()=> {
+
+
+
+      }
+
+
       const API = 'https://acme-users-api-rev.herokuapp.com/api/'
 
       class App extends Component{
@@ -34,19 +47,21 @@
         }
 
         render(){
-          const productNames = this.state.products
-            return (
-              <div>
-                {productNames.map(product=>{
-                  return (
-                    <ul>
-                      <li key={product.id}>Product: {product.name}</li>
-                      <li key={product.id}>SuggestedPrice: {product.suggestedPrice}</li>
-                    </ul>
-                  )
-                })}
-              </div>
-            )
+          const { products, offerings, companies} = this.state;
+          return (
+          <div>
+            {companies.map(company=>{
+              return (
+                <ul>
+                  <li>Product: {company.name}</li>
+                  <li>testCompany:{company.name}</li>
+                </ul>
+              )
+            })}
+          </div>
+        );
+
+
         };
     };
 
