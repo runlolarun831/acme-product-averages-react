@@ -5,13 +5,14 @@
     <script src="https://unpkg.com/react-dom@16/umd/react-dom.development.js" crossorigin></script>
     <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.19.0/axios.js"></script>
-    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/react-router-dom/5.0.1/react-router-dom.js"></script> -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/react-router-dom/5.0.1/react-router-dom.js"></script>
     <style>
     </style>
   </head>
   <body>
     <div id="root"></div>
     <script type='text/babel'>
+      const {HashRouter, Switch, Link, Route, Redirect } = ReactRouterDOM;
       const { Component } = React;
       const { render } = ReactDOM;
 
@@ -21,12 +22,24 @@
         );
       }
 
-      const Products = ()=> {
-
-
-
+      const Products = ({ products })=> {
+      const myProd = products.map( product => {
+        return product.name;
+      })
+      console.log(myProd);
+        return (
+          <div>
+            <h1>Products</h1>
+            <ul>{
+              products.map( product=>{
+                return (
+                  <li>Product: {product.name}</li>
+                )
+              })
+            }</ul>
+          </div>
+        );
       }
-
 
       const API = 'https://acme-users-api-rev.herokuapp.com/api/'
 
@@ -37,7 +50,8 @@
             products: [],
             offerings: [],
             companies: []
-          }
+          };
+          //console.log(products);
         }
 
         componentDidMount(){
@@ -48,22 +62,15 @@
 
         render(){
           const { products, offerings, companies} = this.state;
+          console.log('-->',this.state.products);
           return (
-          <div>
-            {companies.map(company=>{
-              return (
-                <ul>
-                  <li>Product: {company.name}</li>
-                  <li>testCompany:{company.name}</li>
-                </ul>
-              )
-            })}
-          </div>
-        );
-
-
-        };
-    };
+            <HashRouter>
+              <Route path='/home' component={ Home } />
+              <Route path='/products' render={ () => <Products products={ products }/> } />
+            </HashRouter>
+          );
+        }
+      };
 
       const root = document.querySelector('#root');
       //render(React.createElement('hr'), root);
